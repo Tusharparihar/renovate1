@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:base"],
+  
+  "terraform": {
+    "enabled": true
+  },
+  
+  "packageRules": [
+    // --- Rule for AzureRM Provider ONLY (The N-2 Rule) ---
+    {
+      "matchPackageNames": ["hashicorp/azurerm"],
+      "matchUpdateTypes": ["major"],
+      // This is the N-2 logic: only allow major versions up to the current latest - 2
+      // e.g., if latest is 5.x.x, it will suggest up to 3.x.x (which is < 4.0.0)
+      "allowedVersions": "< ${newMajor - 2}.0.0",
+      "groupName": "AzureRM Provider Major Upgrade (N-2 Policy)",
+      "schedule": "at any time" // Optional: run major updates less frequently
+    },
+    
+    // --- Rule for Minor/Patch Updates on AzureRM (Automerge) ---
+    // Automate low-risk updates to stay current within the major line
+    {
+      "matchPackageNames": ["hashicorp/azurerm"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "AzureRM Provider Minor/Patch Updates",
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
+}
