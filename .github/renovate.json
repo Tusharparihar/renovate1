@@ -1,49 +1,8 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-  
-  "terraform": {
-    "enabled": true
-  },
-  
   "packageRules": [
-
     {
-      "matchPackageNames": ["hashicorp/azurerm"],
-      
-
-      "matchUpdateTypes": ["major"], 
-      
-
-      "versioning": "hashicorp-terraform", 
-      
-
-      "allowedVersions": "< ${newMajor}.0.0", 
-      
-      "groupName": "AzureRM Provider Major Upgrade (N-2 Policy)",
-      "schedule": ["at any time"],
-      
-
-    },
-
-    {
-      "description": "Skip all major updates for azurerm except the N-1 target",
-      "matchPackageNames": ["hashicorp/azurerm"],
-      "matchUpdateTypes": ["major"],
-      "groupName": "AzureRM Major Update Control",
-      "automerge": false,
-      "major": {
-        "enabled": false // Disable automatic major updates
-      }
-    },
-    
-
-    {
-      "matchPackageNames": ["hashicorp/azurerm"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "AzureRM Provider Minor/Patch Updates",
-      "automerge": true,
-      "automergeType": "pr"
+      "matchPackagePatterns": ["^azurerm$"],
+      "rangeStrategy": "n-2"
     }
   ]
 }
