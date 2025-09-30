@@ -7,32 +7,25 @@
   },
   
   "packageRules": [
-    // --- Rule 1: AzureRM Provider Major Upgrade (N-2 Policy) ---
+
     {
       "matchPackageNames": ["hashicorp/azurerm"],
       
-      // Target only updates where the versioning is major (e.g., 3.x to 4.x)
+
       "matchUpdateTypes": ["major"], 
       
-      // ⚠️ CRITICAL: The trick is to use rangeStrategy=bump to enforce the N-2 constraint 
-      // by setting a specific versioning scheme for this rule.
+
       "versioning": "hashicorp-terraform", 
       
-      // This is the constraint you want to enforce. 
-      // It creates a PR to update the constraint (e.g., from ~> 3.0 to ~> 4.0), 
-      // but only if the target version is N-2 or less.
+
       "allowedVersions": "< ${newMajor}.0.0", 
       
       "groupName": "AzureRM Provider Major Upgrade (N-2 Policy)",
       "schedule": ["at any time"],
       
-      // Use "ignore" to skip the latest major version that would break N-2. 
-      // This is often simpler than allowedVersions for N-X policies.
-      // This example is for illustration of the allowedVersions conflict.
-      "enabled": false // Disable this specific rule to rely on the standard N-X approach below
+
     },
 
-    // --- Recommended N-X Rule using Ignored Versions for Major Updates ---
     {
       "description": "Skip all major updates for azurerm except the N-1 target",
       "matchPackageNames": ["hashicorp/azurerm"],
@@ -44,8 +37,7 @@
       }
     },
     
-    // --- Rule 2: AzureRM Minor/Patch Updates (Automerge for safety) ---
-    // Automate low-risk updates to stay current within the major line
+
     {
       "matchPackageNames": ["hashicorp/azurerm"],
       "matchUpdateTypes": ["minor", "patch"],
