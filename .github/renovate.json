@@ -1,8 +1,11 @@
 {
   "packageRules": [
     {
-      "matchPackagePatterns": ["^azurerm$"],
-      "rangeStrategy": "n-2"
+      "matchManagers": ["terraform-provider"],
+      "rangeStrategy": "n-2",
+      "separateMajorMinor": false,
+      "separateMultipleMajor": false,
+      "respectLatest": false
     }
   ]
 }
